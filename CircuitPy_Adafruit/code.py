@@ -44,10 +44,10 @@ elif MAIN:
 else:
     pixels = neopixel.NeoPixel(board.NEOPIXEL, 1, brightness=0.05, auto_write=False)
 
-switch = digitalio.DigitalInOut(board.A4 if IS_CPE else board.D4 if MAIN else board.D11)
+switch = digitalio.DigitalInOut(board.D4 if MAIN else board.D11)
 switch.switch_to_output()
 
-switch_in = digitalio.DigitalInOut(board.A5 if IS_CPE else board.D25)
+switch_in = digitalio.DigitalInOut(board.D25)
 switch_in.switch_to_input(pull=digitalio.Pull.DOWN)
 
 #output_enable = digitalio.DigitalInOut(board.A2)
