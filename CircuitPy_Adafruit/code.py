@@ -34,7 +34,7 @@ if IS_CPE:
     button_b = digitalio.DigitalInOut(board.BUTTON_B)
     button_b.switch_to_input(pull=digitalio.Pull.DOWN)
 elif MAIN:
-    button = digitalio.DigitalInOut(board.D4)
+    button = digitalio.DigitalInOut(board.D5)
     button.switch_to_input(pull=digitalio.Pull.DOWN)
 
 if IS_CPE:
@@ -44,7 +44,7 @@ elif MAIN:
 else:
     pixels = neopixel.NeoPixel(board.NEOPIXEL, 1, brightness=0.05, auto_write=False)
 
-switch = digitalio.DigitalInOut(board.A4 if IS_CPE else board.D10 if MAIN else board.D9)
+switch = digitalio.DigitalInOut(board.A4 if IS_CPE else board.D4 if MAIN else board.D11)
 switch.switch_to_output()
 
 switch_in = digitalio.DigitalInOut(board.A5 if IS_CPE else board.D25)
