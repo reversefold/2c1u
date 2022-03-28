@@ -40,7 +40,7 @@ elif MAIN:
 if IS_CPE:
     pixels = neopixel.NeoPixel(board.NEOPIXEL, 10, brightness=0.2, auto_write=False)
 elif MAIN:
-    pixels = neopixel.NeoPixel(board.D6, 8 * 4, brightness=0.05, auto_write=False)
+    pixels = neopixel.NeoPixel(board.D6, 8 * 4, brightness=0.1, auto_write=False)
 else:
     pixels = neopixel.NeoPixel(board.NEOPIXEL, 1, brightness=0.05, auto_write=False)
 
@@ -53,14 +53,35 @@ switch_in.switch_to_input(pull=digitalio.Pull.DOWN)
 #output_enable = digitalio.DigitalInOut(board.A2)
 #output_enable.switch_to_output()
 
+
+def _wheel(pos):
+    # Input a value 0 to 255 to get a color value.
+    # The colours are a transition r - g - b - back to r.
+    if pos < 0 or pos > 255:
+        return (0, 0, 0)
+    if pos < 85:
+        return (255 - pos * 3, pos * 3, 0, 0)
+    if pos < 170:
+        pos -= 85
+        return (0, 255 - pos * 3, pos * 3, 0)
+    pos -= 170
+    return (pos * 3, 0, 255 - pos * 3, 0)
+
+
+def wheel(pos):
+    col = _wheel(pos)
+    return tuple(int(c / 10) for c in col)
+
+
 last_out = 0
 timer = 0
-PERIOD = 500.0
+PERIOD = 150
+COLOR_RATIO = 0.5
 def update_pixels(color):
     global last_out, timer
 
-    t = float(timer if timer < PERIOD / 2 else PERIOD - timer)  # PERIOD / 2 - (timer - PERIOD / 2))
-    pixels.brightness = t / (PERIOD / 2) * 0.04 + 0.01
+    # t = float(timer if timer < PERIOD / 2 else PERIOD - timer)  # PERIOD / 2 - (timer - PERIOD / 2))
+    # pixels.brightness = t / (PERIOD / 2) * 0.04 + 0.01
     # m = 1 # (t / (PERIOD / 2)) / 2.0 + 0.5
     # color = tuple(int(v * m) for v in color)
 
@@ -71,8 +92,11 @@ def update_pixels(color):
     # pixels.fill(color)  #  * int(ts % 5 / 5.0)
     for x in range(8):
         # col = tuple(int(v * (((x + 7.0 * timer / PERIOD) % 7.0) / 7.0 * 0.5 + 0.5)) for v in color)
-        col = color
         for y in range(4):
+            col = (lambda c, w: tuple(c[i] * COLOR_RATIO + w[i] * (1 - COLOR_RATIO) for i in (0, 1, 2)))(
+                color,
+                _wheel(((x + y) * 255.0 / 16 + timer * 255.0 / PERIOD) % 256),
+            )
             pixels[y * 8 + x] = col
     # pixels[0] = (255,0,0)
     # pixels[1] = (0,255,0)
