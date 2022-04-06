@@ -4,11 +4,13 @@ import glob
 import logging
 import sys
 
+import adafruit_board_toolkit.circuitpython_serial
 import serial_asyncio
 import serial.serialutil
 import pyautogui
 
 
+logging.basicConfig(level=logging.INFO)
 LOG = logging.getLogger(__name__)
 
 zero_time_threshold = datetime.timedelta(seconds=1)
@@ -18,19 +20,14 @@ loop = asyncio.get_event_loop()
 
 
 if sys.platform.startswith("win"):
-    SERIAL_DEVICE = "COM4"
     X_THRESHOLD = 0
 else:
-    SERIAL_DEVICE = glob.glob("/dev/cu.usbmodem*301")[0]
     X_THRESHOLD = 2559
 
 EDGE_THRESHOLD = 500
 
 
 ser_read = ser_write = None
-# ser_read, ser_write = await serial_asyncio.open_serial_connection(
-#     url=SERIAL_DEVICE, baudrate=115200, loop=loop
-# )
 
 
 async def serial_write():
@@ -41,10 +38,6 @@ async def serial_write():
             LOG.info("Waiting for serial connection")
             await asyncio.sleep(1)
 
-        # ser_read, ser_write = await serial_asyncio.open_serial_connection(
-        #     url=SERIAL_DEVICE, baudrate=115200, loop=loop
-        # )
-        # import ipdb; ipdb.set_trace()
         try:
 
             command = b"hello\n\r"
@@ -84,8 +77,13 @@ async def open_serial():
             await ser_write.close()
         except Exception:
             LOG.exception("Exception closing serial write")
+    ports = adafruit_board_toolkit.circuitpython_serial.data_comports()
+    if not ports:
+        raise Exception("No adafruit board serial data connections found")
+    serial_device = ports[0].device
+    LOG.info("Connecting to serial device %s" % (serial_device,))
     ser_read, ser_write = await serial_asyncio.open_serial_connection(
-        url=SERIAL_DEVICE, baudrate=115200, loop=loop,
+        url=serial_device, baudrate=115200, loop=loop,
     )
 
 

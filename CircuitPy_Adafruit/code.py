@@ -5,6 +5,8 @@ import board
 import digitalio
 import neopixel
 import supervisor
+import usb_cdc
+
 
 print("listening...")
 
@@ -26,9 +28,37 @@ except OSError:
 
 MAIN = not WORK
 
+
+if MAIN:
+    button = digitalio.DigitalInOut(board.D9)
+    button.switch_to_input(pull=digitalio.Pull.DOWN)
+
+
+if MAIN:
+    pixels = neopixel.NeoPixel(board.D6, 8 * 4, brightness=0.05, auto_write=False)
+    pixel = neopixel.NeoPixel(board.NEOPIXEL, 1, brightness=0.05, auto_write=False)
+else:
+    pixels = neopixel.NeoPixel(board.NEOPIXEL, 1, brightness=0.05, auto_write=False)
+
+# switch_to_0 = digitalio.DigitalInOut(board.D12)
+# switch_to_0.switch_to_output()
+# switch_to_1 = digitalio.DigitalInOut(board.D13)
+# switch_to_1.switch_to_output()
+
+switch = digitalio.DigitalInOut(board.D4 if MAIN else board.D11)
+switch.switch_to_output()
+
+switch_in = digitalio.DigitalInOut(board.D25)
+switch_in.switch_to_input(pull=digitalio.Pull.DOWN)
+
+#output_enable = digitalio.DigitalInOut(board.A2)
+#output_enable.switch_to_output()
+
+
 if MAIN:
     try:
-        import adafruit_displayio_ssd1306
+        import adafruit_displayio_sh1107
+        # import adafruit_displayio_ssd1306
         import adafruit_display_text.label
         import displayio
         import terminalio
@@ -36,7 +66,8 @@ if MAIN:
         displayio.release_displays()
         i2c = board.I2C()
         display_bus = displayio.I2CDisplay(i2c, device_address=0x3c)
-        display = adafruit_displayio_ssd1306.SSD1306(display_bus, width=128, height=64)
+        # display = adafruit_displayio_ssd1306.SSD1306(display_bus, width=128, height=32)
+        display = adafruit_displayio_sh1107.SH1107(display_bus, width=128, height=64)
     except RuntimeError as exc:
         print("Error initializing display: %r" % (exc,))
         display = None
@@ -66,32 +97,6 @@ def update_display(text):
     # Draw a label
     text_area = adafruit_display_text.label.Label(terminalio.FONT, text=text, color=0xFFFF00, x=int(128 / 2 - len(text) / 2 * 6), y=15)
     splash.append(text_area)
-
-
-if MAIN:
-    button = digitalio.DigitalInOut(board.D5)
-    button.switch_to_input(pull=digitalio.Pull.DOWN)
-
-
-if MAIN:
-    pixels = neopixel.NeoPixel(board.D6, 8 * 4, brightness=0.05, auto_write=False)
-    pixel = neopixel.NeoPixel(board.NEOPIXEL, 1, brightness=0.05, auto_write=False)
-else:
-    pixels = neopixel.NeoPixel(board.NEOPIXEL, 1, brightness=0.05, auto_write=False)
-
-# switch_to_0 = digitalio.DigitalInOut(board.D12)
-# switch_to_0.switch_to_output()
-# switch_to_1 = digitalio.DigitalInOut(board.D13)
-# switch_to_1.switch_to_output()
-
-switch = digitalio.DigitalInOut(board.D4 if MAIN else board.D11)
-switch.switch_to_output()
-
-switch_in = digitalio.DigitalInOut(board.D25)
-switch_in.switch_to_input(pull=digitalio.Pull.DOWN)
-
-#output_enable = digitalio.DigitalInOut(board.A2)
-#output_enable.switch_to_output()
 
 
 def _wheel(pos):
@@ -160,6 +165,7 @@ if MAIN:
 
 pressed = pressed_now = got_input = swin = switch_to_1 = switch_to_0 = switch_to_1_now = switch_to_0_now = False
 v = button.value if MAIN else None
+serial_in = ""
 while True:
     time.sleep(0.01)
 
@@ -167,21 +173,33 @@ while True:
     switch_to_0_now = False
     pressed_now = False
 
-    if supervisor.runtime.serial_bytes_available:
-        value = input().strip()
-        # Sometimes Windows sends an extra (or missing) newline - ignore them
-        if value != "":
-            got_input = True
-            print("RX: {}".format(value))
-            if value == "switch":
-                switch_to_1_now = True
-                print("switch_to_1_now")
+    # if supervisor.runtime.serial_bytes_available:
+    #     value = input().strip()
+    value = ""
+    while usb_cdc.data.in_waiting > 0:
+        try:
+            char = usb_cdc.data.read(1).decode("UTF-8")
+        except Exception:
+            print("Bad char %r" % (char,))
+            continue
+        if char == "\n" or char == "\r":
+            value = serial_in
+            serial_in = ""
+            break
+        serial_in += char
+
+    if value != "":
+        got_input = True
+        print("RX: {}".format(value))
+        if value == "switch":
+            switch_to_1_now = True
+            print("switch_to_1_now")
     else:
         got_input = False
     
     if MAIN:
         pressed_now = button.value
-        if pressed_now != pressed:
+        if pressed_now != pressed and pressed_now:
             v = not v
         pressed = pressed_now
         switch_to_0_now = switch_in.value
