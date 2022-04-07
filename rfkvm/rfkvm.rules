@@ -11,12 +11,12 @@
     (via_costs 50)
     (plane_via_costs 5)
     (start_ripup_costs 100)
-    (start_pass_no 376)
+    (start_pass_no 1261)
     (layer_rule F.Cu
       (active on)
       (preferred_direction horizontal)
       (preferred_direction_trace_costs 1.0)
-      (against_preferred_direction_trace_costs 3.5)
+      (against_preferred_direction_trace_costs 3.6)
     )
     (layer_rule B.Cu
       (active on)
@@ -53,17 +53,18 @@
     "kicad_default" "Via[0-1]_800:400_um-kicad_default"
   )
   (class default
-    GND +3V3 "unconnected-(A1-Pad1)" "unconnected-(A1-Pad3)" "unconnected-(A1-Pad5)" "unconnected-(A1-Pad6)" "unconnected-(A1-Pad7)" "unconnected-(A1-Pad8)"
-    "unconnected-(A1-Pad9)" "unconnected-(A1-Pad11)" "unconnected-(A1-Pad12)" "unconnected-(A1-Pad13)" "unconnected-(A1-Pad14)" "unconnected-(A1-Pad15)" "unconnected-(A1-Pad16)" "unconnected-(A1-Pad17)"
-    "unconnected-(A1-Pad18)" "unconnected-(A1-Pad23)" "unconnected-(A1-Pad26)" "unconnected-(A1-Pad27)" "unconnected-(A1-Pad28)" "unconnected-(A2-Pad1)" "unconnected-(A2-Pad3)" "unconnected-(A2-Pad5)"
-    "unconnected-(A2-Pad6)" "unconnected-(A2-Pad7)" "unconnected-(A2-Pad8)" "unconnected-(A2-Pad9)" "unconnected-(A2-Pad10)" "unconnected-(A2-Pad11)" "unconnected-(A2-Pad12)" "unconnected-(A2-Pad13)"
-    "unconnected-(A2-Pad14)" "unconnected-(A2-Pad15)" "unconnected-(A2-Pad16)" "unconnected-(A2-Pad17)" "unconnected-(A2-Pad18)" "unconnected-(A2-Pad20)" "unconnected-(A2-Pad21)" "unconnected-(A2-Pad24)"
-    "unconnected-(A2-Pad25)" "unconnected-(A2-Pad26)" "unconnected-(A2-Pad27)" "unconnected-(A2-Pad28)" "Net-(K1-Pad3)" "Net-(K1-Pad5)" "Net-(K1-Pad9)" "Net-(K1-Pad10)"
-    "Net-(K2-Pad3)" "Net-(K2-Pad4)" "Net-(K2-Pad5)" "Net-(K2-Pad8)" "Net-(K2-Pad10)" "Net-(D1-Pad2)" "Net-(D2-Pad2)" "Net-(K1-Pad8)"
-    "Net-(K2-Pad9)" "Net-(Q1-Pad2)" "Net-(Q2-Pad2)" "Net-(D1-Pad1)" "Net-(K1-Pad4)" "unconnected-(U1-Pad3)" "unconnected-(U1-Pad4)" "unconnected-(U1-Pad7)"
-    "unconnected-(U1-Pad8)" "unconnected-(U2-Pad3)" "unconnected-(U2-Pad4)" "unconnected-(U2-Pad7)" "unconnected-(U2-Pad8)" "unconnected-(U3-Pad3)" "unconnected-(U3-Pad4)" "unconnected-(U3-Pad7)"
-    "unconnected-(U3-Pad8)" "Net-(A1-Pad10)" "Net-(SW2-Pad1)" "unconnected-(A1-Pad20)" "Net-(SW1-Pad2)" "unconnected-(A1-Pad22)" "Net-(R1-Pad1)" "Net-(R2-Pad1)"
-    "Net-(SW3-Pad1)" "Net-(SW3-Pad2)" "unconnected-(A2-Pad22)"
+    GND "unconnected-(A1-Pad1)" "unconnected-(A1-Pad3)" "unconnected-(A1-Pad5)" "unconnected-(A1-Pad6)" "unconnected-(A1-Pad7)" "unconnected-(A1-Pad8)" "unconnected-(A1-Pad9)"
+    "unconnected-(A1-Pad11)" "unconnected-(A1-Pad12)" "unconnected-(A1-Pad13)" "unconnected-(A1-Pad14)" "unconnected-(A1-Pad15)" "unconnected-(A1-Pad16)" "unconnected-(A1-Pad17)" "unconnected-(A1-Pad18)"
+    +3V3 "unconnected-(A1-Pad23)" "unconnected-(A1-Pad27)" "unconnected-(A1-Pad28)" "unconnected-(A2-Pad1)" "unconnected-(A2-Pad3)" "unconnected-(A2-Pad5)" "unconnected-(A2-Pad6)"
+    "unconnected-(A2-Pad7)" "unconnected-(A2-Pad8)" "unconnected-(A2-Pad9)" "unconnected-(A2-Pad10)" "unconnected-(A2-Pad11)" "unconnected-(A2-Pad12)" "unconnected-(A2-Pad13)" "unconnected-(A2-Pad14)"
+    "unconnected-(A2-Pad15)" "unconnected-(A2-Pad16)" "unconnected-(A2-Pad17)" "unconnected-(A2-Pad18)" "unconnected-(A2-Pad20)" "unconnected-(A2-Pad21)" "unconnected-(A2-Pad24)" "unconnected-(A2-Pad25)"
+    "unconnected-(A2-Pad27)" "unconnected-(A2-Pad28)" "Net-(K1-Pad9)" "Net-(K2-Pad3)" "Net-(K2-Pad4)" "Net-(K2-Pad5)" "Net-(K2-Pad8)" "Net-(K2-Pad10)"
+    "Net-(D1-Pad2)" "Net-(K2-Pad9)" "Net-(K1-Pad4)" "unconnected-(U1-Pad3)" "unconnected-(U1-Pad4)" "unconnected-(U1-Pad7)" "unconnected-(U1-Pad8)" "unconnected-(U2-Pad3)"
+    "unconnected-(U2-Pad4)" "unconnected-(U2-Pad7)" "unconnected-(U2-Pad8)" "unconnected-(U3-Pad3)" "unconnected-(U3-Pad4)" "unconnected-(U3-Pad7)" "unconnected-(U3-Pad8)" "Net-(A1-Pad10)"
+    "Net-(A1-Pad19)" "unconnected-(A1-Pad20)" "unconnected-(A1-Pad22)" "Net-(A1-Pad24)" "Net-(A1-Pad25)" "Net-(A1-Pad26)" "unconnected-(A2-Pad22)" "unconnected-(TUSB1-Pad8)"
+    "unconnected-(TUSB1-Pad9)" "unconnected-(TUSB1-Pad10)" "unconnected-(TUSB1-Pad11)" "unconnected-(TUSB2-Pad8)" "unconnected-(TUSB2-Pad9)" "unconnected-(TUSB2-Pad10)" "unconnected-(TUSB2-Pad11)" "Net-(A1-Pad29)"
+    "Net-(A1-Pad30)" "Net-(A2-Pad2)" "Net-(A2-Pad19)" "Net-(A2-Pad26)" "Net-(A2-Pad29)" "Net-(A2-Pad30)" "Net-(D2-Pad2)" "Net-(Q1-Pad2)"
+    "Net-(Q2-Pad2)" "Net-(TUSB1-Pad0)" "Net-(TUSB1-Pad1)" "Net-(TUSB2-Pad0)" "Net-(TUSB2-Pad1)" "Net-(SCB1-Pad2)" "unconnected-(SCB1-Pad3)" "unconnected-(SCB1-Pad4)"
     (clearance_class default)
     (via_rule default)
     (rule
