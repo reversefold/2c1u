@@ -143,7 +143,7 @@ def update_pixels(color):
     for x in range(len(pixels) // 4):
         # col = tuple(int(v * (((x + 7.0 * timer / PERIOD) % 7.0) / 7.0 * 0.5 + 0.5)) for v in color)
         for y in range(len(pixels) // 8):
-            rainbow_color = _wheel(((x + y) * 255.0 / 16 + timer * 255.0 / PERIOD) % 256)
+            rainbow_color = _wheel(((x + y) * 255.0 / 16 + (1 if switch.value else -1) * timer * 255.0 / PERIOD) % 256)
             col = mix_colors(color, rainbow_color)
             if (
                 not switch.value and (y == 3 or (x, y) in ((6, 2), (5, 1), (4, 0)))
