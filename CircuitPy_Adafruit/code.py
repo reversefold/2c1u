@@ -40,10 +40,10 @@ if MAIN:
 else:
     pixels = neopixel.NeoPixel(board.NEOPIXEL, 1, brightness=0.05, auto_write=False)
 
-# switch_to_0 = digitalio.DigitalInOut(board.D12)
-# switch_to_0.switch_to_output()
-# switch_to_1 = digitalio.DigitalInOut(board.D13)
-# switch_to_1.switch_to_output()
+switch_to_0_out = digitalio.DigitalInOut(board.D13)
+switch_to_0_out.switch_to_output()
+switch_to_1_out = digitalio.DigitalInOut(board.D12)
+switch_to_1_out.switch_to_output()
 
 switch = digitalio.DigitalInOut(board.D4 if MAIN else board.D11)
 switch.switch_to_output()
@@ -211,10 +211,21 @@ while True:
             v = True
         switch_to_1 = switch_to_1_now
         is_update = v != switch.value
-        switch.value = v
+        if is_update:
+            if v:
+                switch_to_1_out.value = True
+            else:
+                switch_to_0_out.value = True
+
+            switch.value = v
+
         update_pixels(RED if got_input else BLUE if v else PURPLE)
         if is_update:
             update_display("secondary" if v else "primary")
+
+            time.sleep(0.1)
+            switch_to_1_out.value = switch_to_0_out.value = False
+
 
     if WORK:
         v = switch_to_1_now
