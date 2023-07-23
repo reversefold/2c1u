@@ -354,7 +354,7 @@
     ]
   },
   "meta": {
-    "filename": "rfkvm.kicad_pro",
+    "filename": "2c1u.kicad_pro",
     "version": 1
   },
   "net_settings": {
@@ -387,7 +387,7 @@
       "gencad": "",
       "idf": "",
       "netlist": "",
-      "specctra_dsn": "rfkvm.dsn",
+      "specctra_dsn": "2c1u.dsn",
       "step": "",
       "vrml": ""
     },

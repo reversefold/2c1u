@@ -13,18 +13,38 @@ import pyautogui
 logging.basicConfig(level=logging.INFO)
 LOG = logging.getLogger(__name__)
 
-zero_time_threshold = datetime.timedelta(seconds=1)
+zero_time_threshold = datetime.timedelta(seconds=0.2)
 ser_write = None
 
-loop = asyncio.get_event_loop()
+loop = asyncio.new_event_loop()
 
 
+class Operator(object):
+    @staticmethod
+    def apply(a, b):
+        raise Unimplemented()
+
+
+class GreaterThan(Operator):
+    @staticmethod
+    def apply(a, b):
+        return a > b
+
+
+class LessThan(Operator):
+    @staticmethod
+    def apply(a, b):
+        return a < b
+
+
+EDGE_THRESHOLD = 5
+MAX_DIFF = 300
 if sys.platform.startswith("win"):
-    X_THRESHOLD = 0
+    X_EDGE = 0 + EDGE_THRESHOLD
+    OPERATOR = LessThan
 else:
-    X_THRESHOLD = 2559
-
-EDGE_THRESHOLD = 500
+    X_EDGE = 2559 - EDGE_THRESHOLD
+    OPERATOR = GreaterThan
 
 
 ser_read = ser_write = None
@@ -35,11 +55,10 @@ async def serial_write():
 
     while True:
         while not ser_write:
-            LOG.info("Waiting for serial connection")
+            LOG.info("Waiting for serial write connection")
             await asyncio.sleep(1)
 
         try:
-
             command = b"hello\n\r"
             print(f"<<[{command}]")
 
@@ -61,7 +80,7 @@ async def serial_write():
             #         reply += a
             #     await asyncio.sleep(0.1)
         except Exception:
-            LOG.exception("Exception in serial loop, retrying in 1s")
+            LOG.exception("Exception in serial_write loop, retrying in 1s")
             await asyncio.sleep(1)
 
 
@@ -83,7 +102,9 @@ async def open_serial():
     serial_device = ports[0].device
     LOG.info("Connecting to serial device %s" % (serial_device,))
     ser_read, ser_write = await serial_asyncio.open_serial_connection(
-        url=serial_device, baudrate=115200, loop=loop,
+        url=serial_device,
+        baudrate=115200,
+        loop=loop,
     )
 
 
@@ -96,6 +117,7 @@ async def serial_read():
             await open_serial()
 
             while not ser_read:
+                LOG.info("Waiting for serial read connection")
                 await asyncio.sleep(1)
 
             # command = b"hello\n\r"
@@ -119,7 +141,7 @@ async def serial_read():
                     reply += a
                 await asyncio.sleep(0.1)
         except Exception:
-            LOG.exception("Exception in serial loop, retrying in 1s")
+            LOG.exception("Exception in serial_read loop, retrying in 1s")
             await asyncio.sleep(1)
         finally:
             try:
@@ -140,19 +162,24 @@ async def cursor_watch():
     while True:
         try:
             last_pos_x = pyautogui.size()[0] / 2
-            zero_start = None
+            edge_start = None
             switched = False
             while True:
                 await asyncio.sleep(0.1)
                 pos_x, _ = pyautogui.position()
+                if pos_x == last_pos_x and edge_start is None:
+                    continue
                 if pos_x != last_pos_x:
                     print(pos_x)
-                diff = abs(last_pos_x - X_THRESHOLD)
-                if pos_x == X_THRESHOLD and (zero_start is not None or diff > 0 and diff < EDGE_THRESHOLD):
-                    if zero_start is None:
-                        print("zero_start")
-                        zero_start = datetime.datetime.now()
-                    if datetime.datetime.now() - zero_start > zero_time_threshold:
+                diff = abs(last_pos_x - X_EDGE)
+                if OPERATOR.apply(pos_x, X_EDGE) and (
+                    edge_start is not None or diff < MAX_DIFF
+                ):
+                    if edge_start is None:
+                        print(diff)
+                        print("edge_start")
+                        edge_start = datetime.datetime.now()
+                    if datetime.datetime.now() - edge_start > zero_time_threshold:
                         if not switched:
                             print("switch")
                             switched = True
@@ -161,7 +188,7 @@ async def cursor_watch():
                             await ser_write.drain()
                             print(f"<<[{command}]")
                 else:
-                    zero_start = None
+                    edge_start = None
                     if switched:
                         print("Switch off")
                         switched = False

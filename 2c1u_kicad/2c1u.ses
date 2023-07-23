@@ -1,6 +1,6 @@
 
-(session rfkvm.ses
-  (base_design rfkvm.dsn)
+(session 2c1u.ses
+  (base_design 2c1u.dsn)
   (placement
     (resolution um 10)
     (component "Adafruit:Adafruit 4090 - USB-C Breakout"

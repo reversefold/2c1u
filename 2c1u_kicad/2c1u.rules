@@ -1,5 +1,5 @@
 
-(rules PCB rfkvm
+(rules PCB 2c1u
   (snap_angle 
     fortyfive_degree
   )

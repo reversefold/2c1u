@@ -9,7 +9,7 @@
   },
   "GeneralSpecs": {
     "ProjectId": {
-      "Name": "rfkvm",
+      "Name": "2c1u",
       "GUID": "72666b76-6d2e-46b6-9963-61645f706362",
       "Revision": "rev?"
     },
@@ -34,47 +34,47 @@
   ],
   "FilesAttributes": [
     {
-      "Path": "rfkvm-F_Cu.gtl",
+      "Path": "2c1u-F_Cu.gtl",
       "FileFunction": "Copper,L1,Top",
       "FilePolarity": "Positive"
     },
     {
-      "Path": "rfkvm-B_Cu.gbl",
+      "Path": "2c1u-B_Cu.gbl",
       "FileFunction": "Copper,L2,Bot",
       "FilePolarity": "Positive"
     },
     {
-      "Path": "rfkvm-F_Paste.gtp",
+      "Path": "2c1u-F_Paste.gtp",
       "FileFunction": "SolderPaste,Top",
       "FilePolarity": "Positive"
     },
     {
-      "Path": "rfkvm-B_Paste.gbp",
+      "Path": "2c1u-B_Paste.gbp",
       "FileFunction": "SolderPaste,Bot",
       "FilePolarity": "Positive"
     },
     {
-      "Path": "rfkvm-F_Silkscreen.gto",
+      "Path": "2c1u-F_Silkscreen.gto",
       "FileFunction": "Legend,Top",
       "FilePolarity": "Positive"
     },
     {
-      "Path": "rfkvm-B_Silkscreen.gbo",
+      "Path": "2c1u-B_Silkscreen.gbo",
       "FileFunction": "Legend,Bot",
       "FilePolarity": "Positive"
     },
     {
-      "Path": "rfkvm-F_Mask.gts",
+      "Path": "2c1u-F_Mask.gts",
       "FileFunction": "SolderMask,Top",
       "FilePolarity": "Negative"
     },
     {
-      "Path": "rfkvm-B_Mask.gbs",
+      "Path": "2c1u-B_Mask.gbs",
       "FileFunction": "SolderMask,Bot",
       "FilePolarity": "Negative"
     },
     {
-      "Path": "rfkvm-Edge_Cuts.gm1",
+      "Path": "2c1u-Edge_Cuts.gm1",
       "FileFunction": "Profile",
       "FilePolarity": "Positive"
     }
