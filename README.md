@@ -25,7 +25,7 @@ Required hardware:
 
 I am also using several feather breakout boards for additional output as I had them around to play with:
 * 1x [NeoPixel FeatherWing](https://www.adafruit.com/product/2945)
-* 1x [Adafruit FeatherWing OLED - 128x32](https://www.adafruit.com/product/2900)
+* 1x [Adafruit FeatherWing OLED - 128x64](https://www.adafruit.com/product/4650)
 * 1x [FeatherWing Tripler Mini Kit](https://www.adafruit.com/product/3417)
 
 You will additionally need PCB mount headers for the various components and either breadboards or a custom PCB (see fully functional PCB in `2c1u_kicad`). Note that the TinkerBoy USB 2.0 Hub Breakout boards are not breadboard compatible, the holes are not uniformly separated and require some creativity to hook up with a breadboard.
