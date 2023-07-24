@@ -20,21 +20,21 @@ PURPLE = (180, 0, 255)
 # OFF = (0, 0, 0)
 
 try:
-    os.stat("work")
-    WORK = True
-    print("work")
+    os.stat("secondary")
+    SECONDARY = True
+    print("secondary")
 except OSError:
-    WORK = False
+    SECONDARY = False
 
-MAIN = not WORK
+PRIMARY = not SECONDARY
 
 
-if MAIN:
+if PRIMARY:
     button = digitalio.DigitalInOut(board.D9)
     button.switch_to_input(pull=digitalio.Pull.DOWN)
 
 
-if MAIN:
+if PRIMARY:
     pixels = neopixel.NeoPixel(board.D6, 8 * 4, brightness=0.05, auto_write=False)
     pixel = neopixel.NeoPixel(board.NEOPIXEL, 1, brightness=0.05, auto_write=False)
 else:
@@ -45,7 +45,7 @@ switch_to_0_out.switch_to_output()
 switch_to_1_out = digitalio.DigitalInOut(board.D12)
 switch_to_1_out.switch_to_output()
 
-switch = digitalio.DigitalInOut(board.D4 if MAIN else board.D11)
+switch = digitalio.DigitalInOut(board.D4 if PRIMARY else board.D11)
 switch.switch_to_output()
 
 switch_in = digitalio.DigitalInOut(board.D25)
@@ -55,7 +55,7 @@ switch_in.switch_to_input(pull=digitalio.Pull.DOWN)
 # output_enable.switch_to_output()
 
 
-if MAIN:
+if PRIMARY:
     try:
         import adafruit_displayio_sh1107
 
@@ -175,18 +175,22 @@ def update_pixels(color):
     # pixels[0] = (255,0,0)
     # pixels[1] = (0,255,0)
     pixels.show()
-    if MAIN:
+    if PRIMARY:
         pixel[0] = pixels[0]
         pixel.show()
 
     timer = (timer + 1) % PERIOD
 
 
-if MAIN:
+if PRIMARY:
     update_display("primary")
 
-pressed = pressed_now = got_input = swin = switch_to_1 = switch_to_0 = switch_to_1_now = switch_to_0_now = False
-v = button.value if MAIN else None
+pressed = (
+    pressed_now
+) = (
+    got_input
+) = swin = switch_to_1 = switch_to_0 = switch_to_1_now = switch_to_0_now = False
+v = button.value if PRIMARY else None
 serial_in = ""
 while True:
     time.sleep(0.01)
@@ -219,7 +223,7 @@ while True:
     else:
         got_input = False
 
-    if MAIN:
+    if PRIMARY:
         pressed_now = button.value
         if pressed_now != pressed and pressed_now:
             v = not v
@@ -248,7 +252,7 @@ while True:
             time.sleep(0.1)
             switch_to_1_out.value = switch_to_0_out.value = False
 
-    if WORK:
+    if SECONDARY:
         v = switch_to_1_now
         pixels.fill(RED if got_input else BLUE if v else PURPLE)
         pixels.show()
