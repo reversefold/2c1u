@@ -14,14 +14,14 @@ Required hardware:
 * 2x [Adafruit Feather RP2040](https://www.adafruit.com/product/4884)
 * 2x [TinkerBoy USB 2.0 Hub Breakout](https://www.tinkerboy.xyz/product/tinkerboy-usb-hub-4-port-usb-hub-2-0/)
 * 3x [Adafruit 4090 - USB-C Breakout](https://www.adafruit.com/product/4090)
-* 2x 1K resistors
-* 2x 10K resistors
 * 2x [Omron G6SK-2-DC5 relays](https://www.mouser.com/ProductDetail/Omron-Electronics/G6SK-2-DC5?qs=Mrnyg3lK62HQss%2FMQAyqbw%3D%3D)
+* 2x [PN2222A Transistor](https://www.digikey.com/en/products/detail/nte-electronics-inc/PN2222A/11655004)
+* 2x [Tactile Button Switch](https://www.adafruit.com/product/367)
 * 1x [Sparkfun Cherry MX Switch Breakout](https://www.sparkfun.com/products/13773)
 * 1x Cherry MX Compatible Switch
 * 1x Keycap
-* 2x [PN2222A Transistor](https://www.digikey.com/en/products/detail/nte-electronics-inc/PN2222A/11655004)
-* 2x [Tactile Button Switch](https://www.adafruit.com/product/367)
+* 2x 1K resistors
+* 2x 10K resistors
 
 I am also using several feather breakout boards for additional output as I had them around to play with:
 * 1x [NeoPixel FeatherWing](https://www.adafruit.com/product/2945)
