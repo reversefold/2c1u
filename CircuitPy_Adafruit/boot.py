@@ -11,4 +11,4 @@ if button.value:
     storage.enable_usb_drive()
 else:
     usb_cdc.enable(console=False, data=True)
-    storage.disable_usb_drive()    
+    storage.disable_usb_drive()
